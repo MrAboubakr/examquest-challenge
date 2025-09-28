@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, ArrowRight, Home, CheckCircle } from "lucide-react";
-import { Exam, Question } from "@/data/exams";
+import { Exam, Question } from "@/data/arabic-exams";
 
 interface QuizViewProps {
   exam: Exam;
@@ -61,22 +61,22 @@ const QuizView = ({ exam, onBackToHome }: QuizViewProps) => {
               <div className="mx-auto w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle className="w-8 h-8 text-success" />
               </div>
-              <CardTitle className="text-2xl font-bold">Quiz Complete!</CardTitle>
-              <CardDescription>You've finished the {exam.title} exam</CardDescription>
+              <CardTitle className="text-2xl font-bold">انتهى الامتحان!</CardTitle>
+              <CardDescription>لقد أنهيت امتحان {exam.title}</CardDescription>
             </CardHeader>
             
             <CardContent className="text-center space-y-6">
               <div className="space-y-2">
                 <div className="text-4xl font-bold text-primary">{percentage}%</div>
                 <div className="text-muted-foreground">
-                  {score} out of {exam.questions.length} questions correct
+                  {score} من أصل {exam.questions.length} أسئلة صحيحة
                 </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button onClick={onBackToHome} variant="outline" size="lg">
-                  <Home className="w-4 h-4 mr-2" />
-                  Back to Exams
+                  <Home className="w-4 h-4 ml-2" />
+                  العودة للامتحانات
                 </Button>
                 <Button 
                   onClick={() => {
@@ -86,7 +86,7 @@ const QuizView = ({ exam, onBackToHome }: QuizViewProps) => {
                   }}
                   size="lg"
                 >
-                  Retake Quiz
+                  إعادة الامتحان
                 </Button>
               </div>
             </CardContent>
@@ -106,12 +106,12 @@ const QuizView = ({ exam, onBackToHome }: QuizViewProps) => {
             onClick={onBackToHome}
             className="flex items-center gap-2"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            <ArrowRight className="w-4 h-4" />
+            العودة للرئيسية
           </Button>
           
           <div className="text-sm text-muted-foreground font-medium">
-            Question {currentQuestion + 1} of {exam.questions.length}
+            السؤال {currentQuestion + 1} من {exam.questions.length}
           </div>
         </div>
 
@@ -123,7 +123,7 @@ const QuizView = ({ exam, onBackToHome }: QuizViewProps) => {
         {/* Question Card */}
         <Card className="question-card mb-8">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold leading-relaxed">
+            <CardTitle className="text-xl font-semibold leading-relaxed text-right">
               {question.question}
             </CardTitle>
           </CardHeader>
@@ -133,13 +133,15 @@ const QuizView = ({ exam, onBackToHome }: QuizViewProps) => {
               <Button
                 key={index}
                 variant={selectedAnswers[currentQuestion] === index ? "default" : "outline"}
-                className="option-button w-full text-left justify-start h-auto p-4 text-wrap"
+                className="option-button w-full text-right justify-start h-auto p-4 text-wrap"
                 onClick={() => handleAnswerSelect(index)}
               >
-                <span className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center mr-3 flex-shrink-0">
+                <span className="text-right flex-1">
+                  {option}
+                </span>
+                <span className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center ml-3 flex-shrink-0">
                   {String.fromCharCode(65 + index)}
                 </span>
-                {option}
               </Button>
             ))}
           </CardContent>
@@ -148,22 +150,22 @@ const QuizView = ({ exam, onBackToHome }: QuizViewProps) => {
         {/* Navigation */}
         <div className="flex justify-between items-center">
           <Button 
+            onClick={handleNext}
+            disabled={selectedAnswers[currentQuestion] === undefined}
+            size="lg"
+          >
+            {currentQuestion === exam.questions.length - 1 ? "إنهاء الامتحان" : "التالي"}
+            <ArrowLeft className="w-4 h-4 mr-2" />
+          </Button>
+
+          <Button 
             variant="outline" 
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
             size="lg"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Previous
-          </Button>
-
-          <Button 
-            onClick={handleNext}
-            disabled={selectedAnswers[currentQuestion] === undefined}
-            size="lg"
-          >
-            {currentQuestion === exam.questions.length - 1 ? "Finish Quiz" : "Next"}
             <ArrowRight className="w-4 h-4 ml-2" />
+            السابق
           </Button>
         </div>
       </div>

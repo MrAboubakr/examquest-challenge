@@ -1,8 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Clock, BookOpen, ArrowRight } from "lucide-react";
-import { Exam } from "@/data/exams";
+import { Clock, BookOpen, ArrowLeft } from "lucide-react";
+import { Exam } from "@/data/arabic-exams";
 
 interface ExamCardProps {
   exam: Exam;
@@ -18,22 +18,22 @@ const ExamCard = ({ exam, onStartExam }: ExamCardProps) => {
             {exam.category}
           </Badge>
           <div className="flex items-center text-sm text-muted-foreground">
-            <Clock className="w-4 h-4 mr-1" />
+            <Clock className="w-4 h-4 ml-1" />
             {exam.duration}
           </div>
         </div>
-        <CardTitle className="text-xl font-semibold text-card-foreground group-hover:text-primary transition-colors">
+        <CardTitle className="text-xl font-semibold text-card-foreground group-hover:text-primary transition-colors text-right">
           {exam.title}
         </CardTitle>
-        <CardDescription className="text-muted-foreground leading-relaxed">
+        <CardDescription className="text-muted-foreground leading-relaxed text-right">
           {exam.description}
         </CardDescription>
       </CardHeader>
       
       <CardContent className="flex-1 flex flex-col justify-between pt-0">
-        <div className="flex items-center text-sm text-muted-foreground mb-4">
+        <div className="flex items-center text-sm text-muted-foreground mb-4 justify-end">
+          <span>{exam.questions.length} أسئلة</span>
           <BookOpen className="w-4 h-4 mr-2" />
-          {exam.questions.length} Questions
         </div>
         
         <Button 
@@ -41,8 +41,8 @@ const ExamCard = ({ exam, onStartExam }: ExamCardProps) => {
           className="w-full group-hover:scale-105 transition-transform"
           size="lg"
         >
-          Start Exam
-          <ArrowRight className="w-4 h-4 ml-2" />
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          ابدأ الامتحان
         </Button>
       </CardContent>
     </Card>
